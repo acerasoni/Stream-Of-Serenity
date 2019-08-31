@@ -42,10 +42,10 @@ public class GameRenderer {
 
     public void render(float runTime) {
         MainHero hero = myWorld.getHero();
-		if(hero.movingUp) hero.setY(hero.getY() + 12f);
-		if(hero.movingDown) hero.setY(hero.getY() - 12f);
-		if(hero.movingRight) hero.setX(hero.getX() + 12f);
-		if(hero.movingLeft) hero.setX(hero.getX() - 12f);
+		if(hero.movingUp) hero.setY(hero.getY() + 3f);
+		if(hero.movingDown) hero.setY(hero.getY() - 3f);
+		if(hero.movingRight) hero.setX(hero.getX() + 3f);
+		if(hero.movingLeft) hero.setX(hero.getX() - 3f);
 		if(hero.movingUp || hero.movingDown || hero.movingRight || hero.movingLeft) hero.moving = true;
 		else hero.moving = false;
 
@@ -58,8 +58,14 @@ public class GameRenderer {
         // Draw bird at its coordinates. Retrieve the Animation object from
         // AssetLoader
         // Pass in the runTime variable to get the current frame.
-        batcher.draw((TextureRegion) AssetLoader.idleA.getKeyFrame(runTime),
-                hero.getX(), hero.getY(), 120,120);
+        if(hero.moving) {
+            batcher.draw((TextureRegion) AssetLoader.walkA.getKeyFrame(runTime),
+                    hero.getX(), hero.getY(), 90,90);
+        } else {
+            batcher.draw((TextureRegion) AssetLoader.idleA.getKeyFrame(runTime),
+                    hero.getX(), hero.getY(), 90,90);
+        }
+
 
         // End SpriteBatch
         batcher.end();

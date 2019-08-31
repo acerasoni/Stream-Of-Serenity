@@ -31,9 +31,9 @@ public class AssetLoader {
         idle[1] = (atlas.findRegion("1_1_idle1 (2)"));
         idle[2] = (atlas.findRegion("1_1_idle1 (3)"));
 
-        walk[0] = (atlas.findRegion("1_1_walk1 (1)"));
-        walk[1] = (atlas.findRegion("1_1_walk1 (2)"));
-        walk[2] = (atlas.findRegion("1_1_walk1 (3)"));
+        walk[0] = (atlas.findRegion("1_1_walk (1)"));
+        walk[1] = (atlas.findRegion("1_1_walk (2)"));
+        walk[2] = (atlas.findRegion("1_1_walk (3)"));
 
         // Initialize the Animation with the frame interval and array of frames
         walkA = new Animation(0.1f, walk);
