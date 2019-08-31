@@ -1,6 +1,7 @@
 package com.mygdx.world;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -41,6 +42,13 @@ public class GameRenderer {
 
     public void render(float runTime) {
         MainHero hero = myWorld.getHero();
+		if(hero.movingUp) hero.setY(hero.getY() + 12f);
+		if(hero.movingDown) hero.setY(hero.getY() - 12f);
+		if(hero.movingRight) hero.setX(hero.getX() + 12f);
+		if(hero.movingLeft) hero.setX(hero.getX() - 12f);
+		if(hero.movingUp || hero.movingDown || hero.movingRight || hero.movingLeft) hero.moving = true;
+		else hero.moving = false;
+
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
@@ -51,7 +59,7 @@ public class GameRenderer {
         // AssetLoader
         // Pass in the runTime variable to get the current frame.
         batcher.draw((TextureRegion) AssetLoader.idleA.getKeyFrame(runTime),
-                hero.getX(), hero.getY(), 150,150);
+                hero.getX(), hero.getY(), 120,120);
 
         // End SpriteBatch
         batcher.end();

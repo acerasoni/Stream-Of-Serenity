@@ -19,18 +19,23 @@ public class InputHandler implements InputProcessor {
         return true; // Return true to say we handled the touch.
     }
 
-    @Override
-    public boolean keyDown(int keycode) {
-        if (keycode == Input.Keys.LEFT) hero.setX(hero.getX() - 12f);
-        if (keycode == Input.Keys.RIGHT) hero.setX(hero.getX() + 12f);
-        if (keycode == Input.Keys.UP) hero.setY(hero.getY() + 12f);
-        if (keycode == Input.Keys.DOWN) hero.setY(hero.getY() - 12f);
-        return true;
-    }
+	@Override
+	public boolean keyDown(int keycode) {
+		if(keycode == Input.Keys.LEFT) hero.movingLeft = true;
+		if(keycode == Input.Keys.RIGHT) hero.movingRight = true;
+		if(keycode == Input.Keys.UP) hero.movingUp = true;
+		if(keycode == Input.Keys.DOWN) hero.movingDown = true;
+
+		return true;
+	}
 
     @Override
     public boolean keyUp(int keycode) {
-        return false;
+        if (keycode == Input.Keys.LEFT) hero.movingLeft = false;
+        if (keycode == Input.Keys.RIGHT) hero.movingRight = false;
+        if (keycode == Input.Keys.UP) hero.movingUp = false;
+        if (keycode == Input.Keys.DOWN) hero.movingDown = false;
+        return true;
     }
 
     @Override
