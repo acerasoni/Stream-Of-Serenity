@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -16,7 +17,7 @@ public class GameRenderer {
     private GameWorld myWorld;
     private OrthographicCamera cam;
     private ShapeRenderer shapeRenderer;
-
+    private Animation<TextureRegion> currentA;
     private SpriteBatch batcher;
 
     private int midPointY;
@@ -42,32 +43,33 @@ public class GameRenderer {
 
     public void render(float runTime) {
         MainHero hero = myWorld.getHero();
-		if(hero.movingUp) hero.setY(hero.getY() + 3f);
-		if(hero.movingDown) hero.setY(hero.getY() - 3f);
-		if(hero.movingRight) hero.setX(hero.getX() + 3f);
-		if(hero.movingLeft) hero.setX(hero.getX() - 3f);
-		if(hero.movingUp || hero.movingDown || hero.movingRight || hero.movingLeft) hero.moving = true;
-		else hero.moving = false;
+        if (hero.movingUp) hero.setY(hero.getY() + 3f);
+        if (hero.movingDown) hero.setY(hero.getY() - 3f);
+        if (hero.movingRight) hero.setX(hero.getX() + 3f);
+        if (hero.movingLeft) hero.setX(hero.getX() - 3f);
+        if (hero.movingUp || hero.movingDown || hero.movingRight || hero.movingLeft) hero.moving = true;
+        else hero.moving = false;
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-
-        // Begin SpriteBatch
         batcher.begin();
-
-        // Draw bird at its coordinates. Retrieve the Animation object from
-        // AssetLoader
-        // Pass in the runTime variable to get the current frame.
-        if(hero.moving) {
-            batcher.draw((TextureRegion) AssetLoader.walkA.getKeyFrame(runTime),
-                    hero.getX(), hero.getY(), 90,90);
+        if (hero.attack) {
+            currentA = AssetLoader.atkA;
+            batcher.draw(currentA.getKeyFrame(runTime),
+                    hero.getX(), hero.getY(), 90, 90);
+            if(currentA.isAnimationFinished(runTime)) {
+                hero.attack = false;
+            }
+        } else if (hero.moving) {
+            currentA = AssetLoader.walkA;
+            batcher.draw(currentA.getKeyFrame(runTime),
+                    hero.getX(), hero.getY(), 90, 90);
         } else {
-            batcher.draw((TextureRegion) AssetLoader.idleA.getKeyFrame(runTime),
-                    hero.getX(), hero.getY(), 90,90);
+           currentA = AssetLoader.idleA;
+            batcher.draw(currentA.getKeyFrame(runTime),
+                    hero.getX(), hero.getY(), 90, 90);
         }
-
-
-        // End SpriteBatch
         batcher.end();
     }
 }
+

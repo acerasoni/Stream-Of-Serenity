@@ -26,6 +26,7 @@ public class InputHandler implements InputProcessor {
 		if(keycode == Input.Keys.UP) hero.movingUp = true;
 		if(keycode == Input.Keys.DOWN) hero.movingDown = true;
 
+		if(keycode == Input.Keys.Q) hero.attack = true;
 		return true;
 	}
 
