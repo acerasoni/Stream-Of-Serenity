@@ -48,18 +48,15 @@ public class GameRenderer {
 
     public void render(float delta) {
         runTime += Gdx.graphics.getDeltaTime();
+
         MainHero hero = myWorld.getHero();
-        if (hero.movingUp) hero.setY(hero.getY() + 3f);
-        if (hero.movingDown) hero.setY(hero.getY() - 3f);
-        if (hero.movingRight) hero.setX(hero.getX() + 3f);
-        if (hero.movingLeft) hero.setX(hero.getX() - 3f);
-        if (hero.movingUp || hero.movingDown || hero.movingRight || hero.movingLeft) hero.moving = true;
-        else hero.moving = false;
+        moveHero(hero);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 //        AssetLoader.tiledMapRenderer.setView(cam);
 //        AssetLoader.tiledMapRenderer.render();
+
         batcher.begin();
         if (hero.attack) {
             if (prevAnim != 3) {
@@ -67,8 +64,11 @@ public class GameRenderer {
                 prevAnim = 3;
             }
             currentA = AssetLoader.atkA;
-            batcher.draw(currentA.getKeyFrame(runTime),
-                    hero.getX(), hero.getY(), hero.getWidth(), hero.getHeight());
+            TextureRegion curr = currentA.getKeyFrame(runTime);
+
+            if(hero.turned) curr.flip(true, false);
+            batcher.draw(curr, hero.getX(), hero.getY(), hero.getWidth(), hero.getHeight());
+            if(hero.turned) curr.flip(true, false);
             if (currentA.isAnimationFinished(runTime)) {
                 hero.attack = false;
                 runTime = 0;
@@ -90,6 +90,15 @@ public class GameRenderer {
             if(hero.turned) curr.flip(true, false);
         }
         batcher.end();
+    }
+
+    private void moveHero(MainHero hero) {
+        if (hero.movingUp) hero.setY(hero.getY() + 3f);
+        if (hero.movingDown) hero.setY(hero.getY() - 3f);
+        if (hero.movingRight) hero.setX(hero.getX() + 3f);
+        if (hero.movingLeft) hero.setX(hero.getX() - 3f);
+        if (hero.movingUp || hero.movingDown || hero.movingRight || hero.movingLeft) hero.moving = true;
+        else hero.moving = false;
     }
 }
 

@@ -46,7 +46,7 @@ public class AssetLoader {
         // Initialize the Animation with the frame interval and array of frames
         walkA = new Animation(0.25f, walk);
         idleA = new Animation(0.25f, idle);
-        atkA = new Animation(0.33f, attack);
+        atkA = new Animation(0.25f, attack);
 
         walkA.setPlayMode(Animation.PlayMode.LOOP);
         idleA.setPlayMode(Animation.PlayMode.LOOP);

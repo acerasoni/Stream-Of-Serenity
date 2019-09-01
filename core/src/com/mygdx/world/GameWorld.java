@@ -8,7 +8,7 @@ public class GameWorld {
     private MainHero hero;
 
     public GameWorld(int midPointY) {
-        hero = new MainHero(33, midPointY - 5, 60, 60);
+        hero = new MainHero(33, midPointY - 5, 80, 80);
     }
 
     public void update(float delta) {
