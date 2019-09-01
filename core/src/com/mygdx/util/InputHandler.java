@@ -21,8 +21,14 @@ public class InputHandler implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if(keycode == Input.Keys.LEFT) hero.movingLeft = true;
-		if(keycode == Input.Keys.RIGHT) hero.movingRight = true;
+		if(keycode == Input.Keys.LEFT) {
+		    hero.turned = false;
+		    hero.movingLeft = true;
+        }
+		if(keycode == Input.Keys.RIGHT) {
+		    hero.turned = true;
+		    hero.movingRight = true;
+        }
 		if(keycode == Input.Keys.UP) hero.movingUp = true;
 		if(keycode == Input.Keys.DOWN) hero.movingDown = true;
 

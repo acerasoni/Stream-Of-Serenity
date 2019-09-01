@@ -11,7 +11,7 @@ public class MainHero {
     private int width;
     private int height;
 
-    public boolean movingUp, movingDown, movingRight, movingLeft, moving, attack;
+    public boolean movingUp, movingDown, movingRight, movingLeft, moving, attack, turned;
 
     public MainHero(float x, float y, int width, int height) {
         this.width = width;
@@ -22,6 +22,7 @@ public class MainHero {
 		movingLeft = false;
 		moving = false;
         attack = false;
+        turned = false;
 
         position = new Vector2(x, y);
         velocity = new Vector2(0, 0);

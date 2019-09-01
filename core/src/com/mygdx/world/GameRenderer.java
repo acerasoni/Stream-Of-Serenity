@@ -76,13 +76,18 @@ public class GameRenderer {
         } else if (hero.moving) {
             prevAnim = 2;
             currentA = AssetLoader.walkA;
-            batcher.draw(currentA.getKeyFrame(runTime),
-                    hero.getX(), hero.getY(), hero.getWidth(), hero.getHeight());
+            TextureRegion curr = currentA.getKeyFrame(runTime);
+
+            if(hero.turned) curr.flip(true, false);
+            batcher.draw(curr, hero.getX(), hero.getY(), hero.getWidth(), hero.getHeight());
+            if(hero.turned) curr.flip(true, false);
         } else {
             prevAnim = 1;
             currentA = AssetLoader.idleA;
-            batcher.draw(currentA.getKeyFrame(runTime),
-                    hero.getX(), hero.getY(), hero.getWidth(), hero.getHeight());
+            TextureRegion curr = currentA.getKeyFrame(runTime);
+            if(hero.turned) curr.flip(true, false);
+            batcher.draw(curr, hero.getX(), hero.getY(), hero.getWidth(), hero.getHeight());
+            if(hero.turned) curr.flip(true, false);
         }
         batcher.end();
     }
