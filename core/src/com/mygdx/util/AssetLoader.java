@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.IsometricStaggeredTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 public class AssetLoader {
@@ -22,8 +24,8 @@ public class AssetLoader {
     public static Animation atkA;
 
     public static void load() {
-        tiledMap = new TmxMapLoader().load("mappa.tmx");
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 3f);
+        tiledMap = new TmxMapLoader().load("good.tmx");
+        tiledMapRenderer = new IsometricStaggeredTiledMapRenderer(tiledMap,3f);
 
         atlas = new TextureAtlas(Gdx.files.internal("side/testerino.atlas"));
 
@@ -39,9 +41,10 @@ public class AssetLoader {
         attack[0] = (atlas.findRegion("1_1_atk1 (2)"));
         attack[1] = (atlas.findRegion("1_1_atk1 (3)"));
         attack[2] = (atlas.findRegion("1_1_atk1 (1)"));
-//        attack[3] = (atlas.findRegion("1_1_atk2 (1)"));
-//        attack[4] = (atlas.findRegion("1_1_atk2 (2)"));
-//        attack[5] = (atlas.findRegion("1_1_atk2 (3)"));
+
+        attack[0] = (atlas.findRegion("1_1_atk2 (2)"));
+        attack[1] = (atlas.findRegion("1_1_atk2 (3)"));
+        attack[2] = (atlas.findRegion("1_1_atk2 (1)"));
 
         // Initialize the Animation with the frame interval and array of frames
         walkA = new Animation(0.25f, walk);

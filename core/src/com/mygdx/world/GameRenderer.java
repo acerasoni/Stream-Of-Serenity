@@ -2,6 +2,7 @@ package com.mygdx.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -44,6 +45,7 @@ public class GameRenderer {
 
         runTime = 0;
         prevAnim = 1;
+        cam.translate(200, 200);
     }
 
     public void render(float delta) {
@@ -54,8 +56,8 @@ public class GameRenderer {
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-//        AssetLoader.tiledMapRenderer.setView(cam);
-//        AssetLoader.tiledMapRenderer.render();
+        AssetLoader.tiledMapRenderer.setView(cam);
+        AssetLoader.tiledMapRenderer.render();
 
         batcher.begin();
         if (hero.attack) {
@@ -66,9 +68,9 @@ public class GameRenderer {
             currentA = AssetLoader.atkA;
             TextureRegion curr = currentA.getKeyFrame(runTime);
 
-            if(hero.turned) curr.flip(true, false);
+            if (hero.turned) curr.flip(true, false);
             batcher.draw(curr, hero.getX(), hero.getY(), hero.getWidth(), hero.getHeight());
-            if(hero.turned) curr.flip(true, false);
+            if (hero.turned) curr.flip(true, false);
             if (currentA.isAnimationFinished(runTime)) {
                 hero.attack = false;
                 runTime = 0;
@@ -78,27 +80,44 @@ public class GameRenderer {
             currentA = AssetLoader.walkA;
             TextureRegion curr = currentA.getKeyFrame(runTime);
 
-            if(hero.turned) curr.flip(true, false);
+            if (hero.turned) curr.flip(true, false);
             batcher.draw(curr, hero.getX(), hero.getY(), hero.getWidth(), hero.getHeight());
-            if(hero.turned) curr.flip(true, false);
+            if (hero.turned) curr.flip(true, false);
         } else {
             prevAnim = 1;
             currentA = AssetLoader.idleA;
             TextureRegion curr = currentA.getKeyFrame(runTime);
-            if(hero.turned) curr.flip(true, false);
+            if (hero.turned) curr.flip(true, false);
             batcher.draw(curr, hero.getX(), hero.getY(), hero.getWidth(), hero.getHeight());
-            if(hero.turned) curr.flip(true, false);
+            if (hero.turned) curr.flip(true, false);
         }
         batcher.end();
     }
 
     private void moveHero(MainHero hero) {
-        if (hero.movingUp) hero.setY(hero.getY() + 3f);
-        if (hero.movingDown) hero.setY(hero.getY() - 3f);
-        if (hero.movingRight) hero.setX(hero.getX() + 3f);
-        if (hero.movingLeft) hero.setX(hero.getX() - 3f);
+        if (hero.movingUp) {
+            if (hero.getY() < Gdx.graphics.getHeight() / 2)
+                hero.setY(hero.getY() + 3f);
+            else cam.translate(0, -3f);
+        }
+        if (hero.movingDown) {
+            if (hero.getY() > 10)
+                hero.setY(hero.getY() - 3f);
+            else cam.translate(0, 3f);
+        }
+        if (hero.movingRight) {
+            if(hero.getX() < Gdx.graphics.getWidth() / 2)
+                hero.setX(hero.getX() + 3f);
+            else cam.translate(-3,0);
+        }
+        if (hero.movingLeft) {
+            if(hero.getX() > 0)
+                hero.setX(hero.getX() - 3f);
+            else cam.translate(3,0);
+        }
         if (hero.movingUp || hero.movingDown || hero.movingRight || hero.movingLeft) hero.moving = true;
         else hero.moving = false;
     }
+
 }
 
