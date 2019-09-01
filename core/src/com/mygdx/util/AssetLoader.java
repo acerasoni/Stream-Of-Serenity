@@ -22,7 +22,7 @@ public class AssetLoader {
     public static Animation atkA;
 
     public static void load() {
-        tiledMap = new TmxMapLoader().load("tfjungle/timefantasyjungle.tmx");
+        tiledMap = new TmxMapLoader().load("mappa.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 3f);
 
         atlas = new TextureAtlas(Gdx.files.internal("side/testerino.atlas"));
@@ -36,9 +36,9 @@ public class AssetLoader {
         walk[1] = (atlas.findRegion("1_1_walk (2)"));
         walk[2] = (atlas.findRegion("1_1_walk (3)"));
 
-        attack[0] = (atlas.findRegion("1_1_atk1 (1)"));
-        attack[1] = (atlas.findRegion("1_1_atk1 (2)"));
-        attack[2] = (atlas.findRegion("1_1_atk1 (3)"));
+        attack[0] = (atlas.findRegion("1_1_atk1 (2)"));
+        attack[1] = (atlas.findRegion("1_1_atk1 (3)"));
+        attack[2] = (atlas.findRegion("1_1_atk1 (1)"));
 //        attack[3] = (atlas.findRegion("1_1_atk2 (1)"));
 //        attack[4] = (atlas.findRegion("1_1_atk2 (2)"));
 //        attack[5] = (atlas.findRegion("1_1_atk2 (3)"));
@@ -46,7 +46,7 @@ public class AssetLoader {
         // Initialize the Animation with the frame interval and array of frames
         walkA = new Animation(0.25f, walk);
         idleA = new Animation(0.25f, idle);
-        atkA = new Animation(0.25f, attack);
+        atkA = new Animation(0.33f, attack);
 
         walkA.setPlayMode(Animation.PlayMode.LOOP);
         idleA.setPlayMode(Animation.PlayMode.LOOP);

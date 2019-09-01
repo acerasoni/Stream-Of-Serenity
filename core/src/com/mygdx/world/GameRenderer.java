@@ -22,6 +22,8 @@ public class GameRenderer {
 
     private int midPointY;
     private int gameHeight;
+    private int prevAnim;
+    private float runTime;
 
     public GameRenderer(GameWorld world, int gameHeight, int midPointY) {
         myWorld = world;
@@ -39,9 +41,13 @@ public class GameRenderer {
         batcher.setProjectionMatrix(cam.combined);
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(cam.combined);
+
+        runTime = 0;
+        prevAnim = 1;
     }
 
-    public void render(float runTime) {
+    public void render(float delta) {
+        runTime += Gdx.graphics.getDeltaTime();
         MainHero hero = myWorld.getHero();
         if (hero.movingUp) hero.setY(hero.getY() + 3f);
         if (hero.movingDown) hero.setY(hero.getY() - 3f);
@@ -52,22 +58,31 @@ public class GameRenderer {
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
+//        AssetLoader.tiledMapRenderer.setView(cam);
+//        AssetLoader.tiledMapRenderer.render();
         batcher.begin();
         if (hero.attack) {
+            if (prevAnim != 3) {
+                runTime = 0;
+                prevAnim = 3;
+            }
             currentA = AssetLoader.atkA;
             batcher.draw(currentA.getKeyFrame(runTime),
-                    hero.getX(), hero.getY(), 90, 90);
-            if(currentA.isAnimationFinished(runTime)) {
+                    hero.getX(), hero.getY(), hero.getWidth(), hero.getHeight());
+            if (currentA.isAnimationFinished(runTime)) {
                 hero.attack = false;
+                runTime = 0;
             }
         } else if (hero.moving) {
+            prevAnim = 2;
             currentA = AssetLoader.walkA;
             batcher.draw(currentA.getKeyFrame(runTime),
-                    hero.getX(), hero.getY(), 90, 90);
+                    hero.getX(), hero.getY(), hero.getWidth(), hero.getHeight());
         } else {
-           currentA = AssetLoader.idleA;
+            prevAnim = 1;
+            currentA = AssetLoader.idleA;
             batcher.draw(currentA.getKeyFrame(runTime),
-                    hero.getX(), hero.getY(), 90, 90);
+                    hero.getX(), hero.getY(), hero.getWidth(), hero.getHeight());
         }
         batcher.end();
     }

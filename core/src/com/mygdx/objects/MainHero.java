@@ -59,10 +59,6 @@ public class MainHero {
         return height;
     }
 
-    public float getRotation() {
-        return rotation;
-    }
-
     public void setX(float x) {
         this.position.x = x;
     }
