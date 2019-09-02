@@ -1,11 +1,8 @@
 package com.mygdx.world;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -44,12 +41,15 @@ public class GameRenderer {
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(cam.combined);
 
+        // center camera
+        cam.translate(cam.viewportWidth / 2, cam.viewportHeight);
         runTime = 0;
         prevAnim = 1;
         atk = false;
     }
 
     public void render(float delta) {
+        cam.update();
         runTime += Gdx.graphics.getDeltaTime();
 
         MainHero hero = myWorld.getHero();
@@ -59,14 +59,13 @@ public class GameRenderer {
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         AssetLoader.tiledMapRenderer.setView(cam);
         AssetLoader.tiledMapRenderer.render();
-
         batcher.begin();
         if (hero.attack) {
             if (prevAnim != 3) {
                 runTime = 0;
                 prevAnim = 3;
             }
-            if(atk) currentA = AssetLoader.atkA;
+            if (atk) currentA = AssetLoader.atkA;
             else currentA = AssetLoader.atkB;
 
             TextureRegion curr = currentA.getKeyFrame(runTime);
@@ -103,27 +102,25 @@ public class GameRenderer {
         if (hero.movingUp) {
             if (hero.getY() < Gdx.graphics.getHeight() / 2)
                 hero.setY(hero.getY() + 3f);
-            else camY -= 3f;
-            cam.translate(0,0,3f);
+            else camY += 3f;
         }
         if (hero.movingDown) {
             if (hero.getY() > 10)
                 hero.setY(hero.getY() - 3f);
-            else camY += 3f;
+            else camY -= 3f;
         }
         if (hero.movingRight) {
-            if(hero.getX() < Gdx.graphics.getWidth() / 2)
+            if (hero.getX() < Gdx.graphics.getWidth() / 2)
                 hero.setX(hero.getX() + 3f);
-            else camX -= 3f;
+            else camX += 3f;
         }
         if (hero.movingLeft) {
-            if(hero.getX() > 0)
+            if (hero.getX() > 0)
                 hero.setX(hero.getX() - 3f);
-            else camX += 3f;
+            else camX -= 3f;
         }
 
         cam.translate(camX, camY);
-
         if (hero.movingUp || hero.movingDown || hero.movingRight || hero.movingLeft) hero.moving = true;
         else hero.moving = false;
 

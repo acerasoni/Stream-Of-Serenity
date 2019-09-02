@@ -26,7 +26,7 @@ public class AssetLoader {
 
     public static void load() {
         tiledMap = new TmxMapLoader().load("Sample.tmx");
-        tiledMapRenderer = new IsometricTiledMapRenderer(tiledMap,3f);
+        tiledMapRenderer = new IsometricStaggeredTiledMapRenderer(tiledMap);
 
         atlas = new TextureAtlas(Gdx.files.internal("side/testerino.atlas"));
 
