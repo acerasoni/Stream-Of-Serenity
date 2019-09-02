@@ -25,6 +25,7 @@ public class GameRenderer {
     private int gameHeight;
     private int prevAnim;
     private float runTime;
+    private boolean atk; // false = first attack type, true = second attack type
 
     public GameRenderer(GameWorld world, int gameHeight, int midPointY) {
         myWorld = world;
@@ -45,7 +46,7 @@ public class GameRenderer {
 
         runTime = 0;
         prevAnim = 1;
-        cam.translate(200, 200);
+        atk = false;
     }
 
     public void render(float delta) {
@@ -65,13 +66,16 @@ public class GameRenderer {
                 runTime = 0;
                 prevAnim = 3;
             }
-            currentA = AssetLoader.atkA;
+            if(atk) currentA = AssetLoader.atkA;
+            else currentA = AssetLoader.atkB;
+
             TextureRegion curr = currentA.getKeyFrame(runTime);
 
             if (hero.turned) curr.flip(true, false);
             batcher.draw(curr, hero.getX(), hero.getY(), hero.getWidth(), hero.getHeight());
             if (hero.turned) curr.flip(true, false);
             if (currentA.isAnimationFinished(runTime)) {
+                atk = !atk;
                 hero.attack = false;
                 runTime = 0;
             }
@@ -95,28 +99,34 @@ public class GameRenderer {
     }
 
     private void moveHero(MainHero hero) {
+        float camX = 0, camY = 0;
         if (hero.movingUp) {
             if (hero.getY() < Gdx.graphics.getHeight() / 2)
                 hero.setY(hero.getY() + 3f);
-            else cam.translate(0, -3f);
+            else camY -= 3f;
+            cam.translate(0,0,3f);
         }
         if (hero.movingDown) {
             if (hero.getY() > 10)
                 hero.setY(hero.getY() - 3f);
-            else cam.translate(0, 3f);
+            else camY += 3f;
         }
         if (hero.movingRight) {
             if(hero.getX() < Gdx.graphics.getWidth() / 2)
                 hero.setX(hero.getX() + 3f);
-            else cam.translate(-3,0);
+            else camX -= 3f;
         }
         if (hero.movingLeft) {
             if(hero.getX() > 0)
                 hero.setX(hero.getX() - 3f);
-            else cam.translate(3,0);
+            else camX += 3f;
         }
+
+        cam.translate(camX, camY);
+
         if (hero.movingUp || hero.movingDown || hero.movingRight || hero.movingLeft) hero.moving = true;
         else hero.moving = false;
+
     }
 
 }
