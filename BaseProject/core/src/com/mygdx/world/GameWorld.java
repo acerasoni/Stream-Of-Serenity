@@ -1,7 +1,7 @@
 package com.mygdx.world;
 
 import com.badlogic.gdx.Gdx;
-import com.mygdx.objects.MainHero;
+import com.mygdx.objects.actors.MainHero;
 
 public class GameWorld {
 

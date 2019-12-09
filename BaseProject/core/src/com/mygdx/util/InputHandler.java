@@ -2,7 +2,7 @@ package com.mygdx.util;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.mygdx.objects.MainHero;
+import com.mygdx.objects.actors.MainHero;
 
 public class InputHandler implements InputProcessor {
     private MainHero hero;

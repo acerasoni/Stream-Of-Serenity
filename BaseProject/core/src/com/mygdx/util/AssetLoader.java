@@ -25,7 +25,7 @@ public class AssetLoader {
         tiledMap = new TmxMapLoader().load("mappa.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 3f);
 
-        atlas = new TextureAtlas(Gdx.files.internal("side/testerino.atlas"));
+        atlas = new TextureAtlas(Gdx.files.internal("spritesheet.atlas"));
 
         TextureRegion[] idle = new TextureRegion[3], walk = new TextureRegion[3], attack = new TextureRegion[3];
         idle[0] = (atlas.findRegion("1_1idle2 (1)"));
